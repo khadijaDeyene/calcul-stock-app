@@ -39,11 +39,9 @@ if st.button("Calculer"):
     result, message = calculate_result(df, cuve_name, density, H1)
     
     if result is None:
-        st.error(message)
+        st.error("Une erreur est survenue : données invalides !")
     else:
         st.success(f"Le résultat final pour la cuve **{cuve_name}** est: **{result:.3f}**")
-        st.info(message)
-
         # Ajouter le résultat au DataFrame de la session
         new_row = {
             "Date": [datetime.now().strftime("%Y-%m-%d")],
@@ -74,6 +72,7 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
+
 
 
 
