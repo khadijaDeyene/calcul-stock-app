@@ -44,11 +44,11 @@ if st.button("Calculer"):
         st.success(f"Le résultat final pour la cuve **{cuve_name}** est: **{result:.3f}**")
         # Ajouter le résultat au DataFrame de la session
         new_row = {
-            "Date": [datetime.now().strftime("%Y-%m-%d")],
+            "Date": datetime.now().strftime("%Y-%m-%d"),
             "Cuve": cuve_name,
-            "Densité": density,
+            "Densite": density,
             "Hauteur vide": H1,
-            "Résultat": result
+            "Resultat": result
         }
         st.session_state.results_df = pd.concat(
             [st.session_state.results_df, pd.DataFrame([new_row])],
@@ -72,6 +72,7 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
+
 
 
 
