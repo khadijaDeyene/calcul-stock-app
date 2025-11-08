@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from logic import load_data, calculate_result
 from io import StringIO
+from datetime import datetime
 
 # Add a logo
 st.image("batimar.jpg", width=300)
@@ -45,6 +46,7 @@ if st.button("Calculer"):
 
         # Ajouter le résultat au DataFrame de la session
         new_row = {
+            "Date": [datetime.now().strftime("%Y-%m-%d")],
             "Cuve": cuve_name,
             "Densité": density,
             "Hauteur vide": H1,
@@ -72,5 +74,6 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
+
 
 
