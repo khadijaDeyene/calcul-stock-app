@@ -2,11 +2,9 @@ import pandas as pd
 from datetime import datetime
 
 def load_data(file_path):
-    """Charger le fichier CSV"""
     return pd.read_csv(file_path)
 
 def calculate_result(df, cuve_name, density, H1):
-    """Faire le calcul principal"""
     row = df[df['Cuve'] == cuve_name]
 
     if row.empty:
@@ -41,3 +39,4 @@ def calculate_result(df, cuve_name, density, H1):
         result_data.to_csv(result_file, index=False)
 
     return final_result, f"✅ Le resultat est sauvgarde dans **{result_file}** avec succes !"
+
