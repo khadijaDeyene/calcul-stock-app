@@ -15,7 +15,7 @@ df = load_data("data.csv")
 
 # Stocker les résultats dans la session
 if "results_df" not in st.session_state:
-    st.session_state.results_df = pd.DataFrame(columns=["Cuve", "Densité", "Hauteur vide", "Résultat"])
+    st.session_state.results_df = pd.DataFrame(columns=["Date", "Cuve", "Densite", "Resultat"])
 
 # Inputs
 st.subheader("Entrer les données pour effectuer les calculs")
@@ -31,8 +31,8 @@ cuve_name = st.selectbox(
      'C65- 13', 'C65- 14']
 )
 
-density = st.number_input("Entrez la densité de l'article", min_value=0.0, format="%.3f")
-H1 = st.number_input("Entrez la hauteur à vide:", min_value=0.0, format="%.3f")
+density = st.number_input("Entrez la densité de l'article", min_value=0.0, format="%.2f")
+H1 = st.number_input("Entrez la hauteur à vide:", min_value=000.0, format="%.2f")
 
 # Button
 if st.button("Calculer"):
@@ -41,7 +41,7 @@ if st.button("Calculer"):
     if result is None:
         st.error("Une erreur est survenue : données invalides !")
     else:
-        st.success(f"Le résultat final pour la cuve **{cuve_name}** est: **{result:.3f}**")
+        st.success(f"Le résultat final pour la cuve **{cuve_name}** est: **{result:.2f}**")
         # Ajouter le résultat au DataFrame de la session
         new_row = {
             "Date": datetime.now().strftime("%Y-%m-%d"),
@@ -72,6 +72,7 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
+
 
 
 
