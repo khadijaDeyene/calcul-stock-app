@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from logic import load_data, calculate_result
+from io import StringIO
 
 # Add a logo
 st.image("batimar.jpg", width=300)
@@ -31,13 +32,31 @@ H1 = st.number_input("Entrez la hauteur à vide:", min_value=0.0, format="%.3f")
 # Button
 if st.button("Calculer"):
     result, message = calculate_result(df, cuve_name, density, H1)
+    
     if result is None:
         st.error(message)
     else:
         st.success(f"Le résultat final pour la cuve **{cuve_name}** est: **{result:.3f}**")
         st.info(message)
 
+        # Prepare CSV for instant download
+        output_df = pd.DataFrame({
+            "Date": [pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S")],
+            "Cuve": [cuve_name],
+            "Densite": [density],
+            "Hauteur vide": [H1],
+            "Result": [result]
+        })
 
+        csv_buffer = StringIO()
+        output_df.to_csv(csv_buffer, index=False)
+        csv_buffer.seek(0)
 
+        st.download_button(
+            label="Télécharger le résultat en CSV",
+            data=csv_buffer,
+            file_name=f"result_{cuve_name}.csv",
+            mime="text/csv"
+        )
 
 
