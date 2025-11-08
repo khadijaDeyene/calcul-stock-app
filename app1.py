@@ -12,6 +12,10 @@ st.title("Système Pour le Calcul de Stock")
 # Load dataset
 df = load_data("data.csv")
 
+# Stocker les résultats dans la session
+if "results_df" not in st.session_state:
+    st.session_state.results_df = pd.DataFrame(columns=["Cuve", "Densité", "Hauteur vide", "Résultat"])
+
 # Inputs
 st.subheader("Entrer les données pour effectuer les calculs")
 
@@ -39,24 +43,34 @@ if st.button("Calculer"):
         st.success(f"Le résultat final pour la cuve **{cuve_name}** est: **{result:.3f}**")
         st.info(message)
 
-        # Prepare CSV for instant download
-        output_df = pd.DataFrame({
-            "Date": [pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S")],
-            "Cuve": [cuve_name],
-            "Densite": [density],
-            "Hauteur vide": [H1],
-            "Result": [result]
-        })
-
-        csv_buffer = StringIO()
-        output_df.to_csv(csv_buffer, index=False)
-        csv_buffer.seek(0)
-
-        st.download_button(
-            label="Télécharger le résultat en CSV",
-            data=csv_buffer,
-            file_name=f"result_{cuve_name}.csv",
-            mime="text/csv"
+        # Ajouter le résultat au DataFrame de la session
+        new_row = {
+            "Cuve": cuve_name,
+            "Densité": density,
+            "Hauteur vide": H1,
+            "Résultat": result
+        }
+        st.session_state.results_df = pd.concat(
+            [st.session_state.results_df, pd.DataFrame([new_row])],
+            ignore_index=True
         )
+
+# Afficher tous les résultats de la session
+if not st.session_state.results_df.empty:
+    st.subheader("Tous les résultats calculés dans cette session")
+    st.dataframe(st.session_state.results_df)
+
+    # Préparer le CSV à télécharger
+    csv_buffer = StringIO()
+    st.session_state.results_df.to_csv(csv_buffer, index=False)
+    csv_data = csv_buffer.getvalue()
+
+    # Bouton de téléchargement
+    st.download_button(
+        label="Télécharger tous les résultats en CSV",
+        data=csv_data,
+        file_name="resultats_session.csv",
+        mime="text/csv"
+    )
 
 
