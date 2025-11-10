@@ -13,7 +13,7 @@ df = load_data("data.csv")
 if "results_df" not in st.session_state:
     st.session_state.results_df = pd.DataFrame(columns=["Date", "Cuve", "Densite", "Resultat"])
 # Inputs
-st.subheader("Entrer les données pour effectuer les calculs")
+st.subheader("Entrez les données pour effectuer les calculs")
 cuve_name = st.selectbox(
     "Entrez le nom de la cuve:",
     ['', 'T841', 'T805', 'T840', 'T301', 'T807', 'T808', 'T810', 'V110', 
@@ -60,3 +60,4 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
+
