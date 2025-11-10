@@ -3,23 +3,17 @@ import pandas as pd
 from logic import load_data, calculate_result
 from io import StringIO
 from datetime import datetime
-
 # Add a logo
 st.image("batimar.jpg", width=300)
-
 # Title
 st.title("Système Pour le Calcul de Stock")
-
 # Load dataset
 df = load_data("data.csv")
-
 # Stocker les résultats dans la session
 if "results_df" not in st.session_state:
     st.session_state.results_df = pd.DataFrame(columns=["Date", "Cuve", "Densite", "Resultat"])
-
 # Inputs
 st.subheader("Entrer les données pour effectuer les calculs")
-
 cuve_name = st.selectbox(
     "Entrez le nom de la cuve:",
     ['', 'T841', 'T805', 'T840', 'T301', 'T807', 'T808', 'T810', 'V110', 
@@ -30,14 +24,11 @@ cuve_name = st.selectbox(
      'C65- 6', 'C65- 7', 'C65- 8', 'C65- 9', 'C65- 10', 'C65- 11', 'C65- 12', 
      'C65- 13', 'C65- 14']
 )
-
 density = st.number_input("Entrez la densité de l'article", min_value=0.0, format="%.2f")
 H1 = st.number_input("Entrez la hauteur à vide:", min_value=000.0, format="%.2f")
-
 # Button
 if st.button("Calculer"):
     result, message = calculate_result(df, cuve_name, density, H1)
-    
     if result is None:
         st.error("Une erreur est survenue : données invalides !")
     else:
@@ -54,17 +45,14 @@ if st.button("Calculer"):
             [st.session_state.results_df, pd.DataFrame([new_row])],
             ignore_index=True
         )
-
 # Afficher tous les résultats de la session
 if not st.session_state.results_df.empty:
     st.subheader("Tous les résultats calculés dans cette session")
     st.dataframe(st.session_state.results_df)
-
     # Préparer le CSV à télécharger
     csv_buffer = StringIO()
     st.session_state.results_df.to_csv(csv_buffer, index=False)
     csv_data = csv_buffer.getvalue()
-
     # Bouton de téléchargement
     st.download_button(
         label="Télécharger tous les résultats en CSV",
@@ -72,9 +60,3 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
-
-
-
-
-
-
