@@ -16,13 +16,13 @@ if "results_df" not in st.session_state:
 st.subheader("Entrez les données pour effectuer les calculs")
 cuve_name = st.selectbox(
     "Entrez le nom de la cuve:",
-    ['', 'T841', 'T805', 'T840', 'T301', 'T807', 'T808', 'T810', 'V110', 
-     'C AGL Sy', 'T804', 'T809', 'T806', 'T811', 'T842', 'T843', 'Bassin 2', 
-     'Bassin 3', 'Bassin 4', '1500- 1', '1500- 2', '1500- 3', '1500- 4', 
-     '1500- 5', '1500-6', '500-1', '500-2', '500-3', '500-4', 'C130-1', 
-     'C130-2', 'C130-3', 'C65- 1', 'C65- 2', 'C65- 3', 'C65- 4', 'C65- 5', 
-     'C65- 6', 'C65- 7', 'C65- 8', 'C65- 9', 'C65- 10', 'C65- 11', 'C65- 12', 
-     'C65- 13', 'C65- 14']
+    ['', 'T841', 'T805', 'T840', 'T301','T820','T821','T822','T830','T831','T832', 
+     'T807', 'T808', 'T810', 'V110', 'C AGL Sy', 'T804', 'T809', 'T806', 
+     'T811', 'T842', 'T843', 'Bassin 2','Bassin 3', 'Bassin 4', '1500- 1',
+     '1500- 2', '1500- 3', '1500- 4', '1500- 5', '1500-6', '500-1', '500-2',
+     '500-3', '500-4', 'C130-1', 'C130-2', 'C130-3', 'C65- 1', 'C65- 2', 'C65- 3',
+     'C65- 4', 'C65- 5', 'C65- 6', 'C65- 7', 'C65- 8', 'C65- 9', 
+     'C65- 10', 'C65- 11', 'C65- 12', 'C65- 13', 'C65- 14']
 )
 density = st.number_input("Entrez la densité de l'article", min_value=0.0, format="%.2f")
 H1 = st.number_input("Entrez la hauteur à vide:", min_value=000.0, format="%.2f")
@@ -60,4 +60,5 @@ if not st.session_state.results_df.empty:
         file_name="resultats_session.csv",
         mime="text/csv"
     )
+
 
